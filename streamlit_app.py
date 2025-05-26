@@ -3,13 +3,20 @@ import whisper
 import tempfile
 import os
 import json
+import time
 
 st.set_page_config(page_title="Whisper Transcribe", layout="centered")
 
 st.title("🎙️ Transkripsi Audio dengan Whisper")
 
-model_options = ["tiny", "base", "small", "medium", "large"]
+model_options = ["tiny", "base", "small"]
 model_choice = st.selectbox("Pilih model Whisper", model_options, index=2)  # default small
+st.info(
+    "Medium dan Large model dari Whisper tidak tersedia karena limitasi dari Streamlit. "
+    "Jika ingin memakai model large kunjungi: "
+    '[Whisper Large Model](https://colab.research.google.com/drive/1OrF2IwRaoQDJBvzG5-I5YiSqrjs8AwMg?usp=sharing)'
+)
+
 
 @st.cache_resource
 def load_model(name):
@@ -69,7 +76,11 @@ if uploaded_file is not None:
     # Jalankan transcribe hanya sekali
     if "transcription_result" not in st.session_state:
         with st.spinner("🔍 Sedang mentranskripsi..."):
+            start_time = time.time()  # Mulai stopwatch
             st.session_state.transcription_result = model.transcribe(st.session_state.audio_path)
+            end_time = time.time()  # Akhir stopwatch
+            duration = end_time - start_time
+            st.success(f"✅ Transkripsi selesai dalam {duration:.2f} detik!")
 
         segments = st.session_state.transcription_result["segments"]
 
