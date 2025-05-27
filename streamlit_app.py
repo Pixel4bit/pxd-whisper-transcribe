@@ -13,7 +13,7 @@ model_options = ["tiny", "base", "small"]
 model_choice = st.selectbox("Pilih model Whisper", model_options, index=2)  # default small
 st.info(
     "Medium dan Large model dari Whisper tidak tersedia karena limitasi dari Streamlit. "
-    "Jika ingin memakai model large kunjungi: "
+    "Jika ingin memakai model yang lebih akurat kunjungi: "
     '[Whisper Large Model](https://colab.research.google.com/drive/1OrF2IwRaoQDJBvzG5-I5YiSqrjs8AwMg?usp=sharing)'
 )
 
